@@ -33,7 +33,7 @@ No PLSQL Developer, após compilar a package, utilizar o modo teste da ferrament
    PKG_Consultas.prc_Consulta_3
    PROCEDURE prc_Consulta_3(ret_CURSOR OUT T_Cursor)
    
-4) Agrupar a quantidade de vendas de uma determinada Marca por Loja: Informar o nome da loja no parâmetro < par_brand_name > 
+4) Agrupar a quantidade de vendas de uma determinada Marca por Loja: Informar o nome da marca no parâmetro < par_brand_name > 
    PKG_Consultas.prc_Consulta_4  
    PROCEDURE prc_Consulta_4(par_brand_name IN	brands.brand_name%TYPE
 	                       ,ret_CURSOR     OUT T_Cursor)
