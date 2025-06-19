@@ -47,7 +47,8 @@ CREATE OR REPLACE PACKAGE BODY codegroup.PKG_Consultas IS
 			INNER JOIN categories B ON B.category_id = A.category_id
 			INNER JOIN brands     C ON C.brand_id    = A.brand_id
 			WHERE      NOT EXISTS(SELECT 1
-								  FROM   order_items D ON D.product_id = A.product_id);
+								  FROM   order_items D 
+								  WHERE  D.product_id = A.product_id);
     END prc_Consulta_2;
 
 
@@ -64,8 +65,9 @@ CREATE OR REPLACE PACKAGE BODY codegroup.PKG_Consultas IS
 			INNER JOIN categories B ON B.category_id = A.category_id
 			INNER JOIN brands     C ON C.brand_id    = A.brand_id
 			WHERE      NOT EXISTS(SELECT 1
-								  FROM   stocks D ON D.product_id = A.product_id
-								  WHERE  NVL(quantity,0) > 0);	
+								  FROM   stocks D 
+								  WHERE  D.product_id = A.product_id
+								  AND    NVL(D.quantity,0) > 0);	
     END prc_Consulta_3;
 
 
@@ -77,7 +79,7 @@ CREATE OR REPLACE PACKAGE BODY codegroup.PKG_Consultas IS
         OPEN ret_CURSOR FOR
 			SELECT     E.brand_name
 					   D.store_name
-					  ,COUNT(*)     AS quantity
+					  ,SUM(A.quantity) AS quantity
 			FROM       order_items A
 			INNER JOIN orders      B ON B.order_id   = A.order_id
 			INNER JOIN products    C ON C.product_id = A.product_id
@@ -99,7 +101,8 @@ CREATE OR REPLACE PACKAGE BODY codegroup.PKG_Consultas IS
 				  ,A.phone
 			FROM   staffs A
 			WHERE  NOT EXISTS(SELECT 1
-							  FROM   orders B ON B.staff_id = A.staff_id);
+							  FROM   orders B 
+							  WHERE  B.staff_id = A.staff_id);
     END prc_Consulta_5;
 
 END;
